@@ -20,6 +20,8 @@ window:
   dimensions:
     columns: 85
     lines: 25
+    
+  opacity: 0.97
 
   # Window position (changes require restart)
   #
@@ -307,7 +309,8 @@ colors:
 #
 # Window opacity as a floating point number from `0.0` to `1.0`.
 # The value `0.0` is completely transparent and `1.0` is opaque.
-background_opacity: .95
+#window:
+#   opacity: 0.95
 
 selection:
   #semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
@@ -316,7 +319,7 @@ selection:
   save_to_clipboard: true
 
 # Allow terminal applications to change Alacritty's window title.
-dynamic_title: true
+window.dynamic_title: true
 
 #cursor:
   # Cursor style
@@ -529,7 +532,7 @@ mouse_bindings:
 #
 # If the same trigger is assigned to multiple actions, all of them are executed
 # at once.
-#key_bindings:
+key_bindings:
   # (Windows, Linux, and BSD only)
   #- { key: V,        mods: Control|Shift, action: Paste            }
   #- { key: C,        mods: Control|Shift, action: Copy             }
@@ -539,6 +542,8 @@ mouse_bindings:
   #- { key: Add,      mods: Control,       action: IncreaseFontSize }
   #- { key: Subtract, mods: Control,       action: DecreaseFontSize }
   #- { key: Minus,    mods: Control,       action: DecreaseFontSize }
+ - { key: K,    mods: Control|Shift,       action: ScrollLineUp }
+ - { key: J,    mods: Control|Shift,       action: ScrollLineDown }
 
   # (Windows only)
   #- { key: Return,   mods: Alt,           action: ToggleFullscreen }
