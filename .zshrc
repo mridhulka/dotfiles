@@ -1,3 +1,10 @@
+# Dirhistory plugin
+source /usr/share/zsh/plugins/dirhistory/dirhistory.plugin.zsh
+
+source /usr/share/zsh/plugins/history-search-multi-word/history-search-multi-word.plugin.zsh
+
+source /usr/share/zsh/plugins/sudo/sudo.plugin.zsh
+
 # Artisan autocomplete plugin
 source /usr/share/zsh/plugins/laravel/laravel.plugin.zsh
 
@@ -7,6 +14,37 @@ source /usr/share/zsh/plugins/laravel/laravel.plugin.zsh
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
+
+[[ -s /home/mridhul/.autojump/etc/profile.d/autojump.sh ]] && source /home/mridhul/.autojump/etc/profile.d/autojump.sh
+autoload -U compinit && compinit -u
+
+# For NVM
+source /usr/share/nvm/init-nvm.sh
+
+mkcd() { mkdir -p "$@" && cd "$@"; }
+
+
+autoload -U add-zsh-hook
+load-nvmrc() {
+  local node_version="$(nvm version)"
+  local nvmrc_path="$(nvm_find_nvmrc)"
+
+  if [ -n "$nvmrc_path" ]; then
+    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+
+    if [ "$nvmrc_node_version" = "N/A" ]; then
+      nvm install
+    elif [ "$nvmrc_node_version" != "$node_version" ]; then
+      nvm use
+    fi
+  elif [ "$node_version" != "$(nvm version default)" ]; then
+    echo "Reverting to nvm default version"
+    nvm use default
+  fi
+}
+add-zsh-hook chpwd load-nvmrc
+load-nvmrc
+
 
 ## Options section
 setopt correct                                                  # Auto correct mistakes
@@ -81,11 +119,43 @@ alias gitu='git add . && git commit && git push'
 alias npa="cd /srv/http/npa"
 alias openhab="cd ~/Documents/Projects/openhab"
 alias ohproject="cd ~/Documents/Projects/ohproject"
+alias fiber="cd ~/Documents/Projects/fibernet-launching"
 alias swapr="sudo swapoff -a && sudo swapon -a"
 #alias ls='ls --color=auto'
+alias dep='vendor/bin/dep'
+alias c="clear"
 alias ls='lsd -A'
 alias dco='docker-compose'
+alias dcorm='docker-compose run --rm'
+alias a='docker-compose run --rm artisan'
 alias dotfilesgit='/usr/bin/git --git-dir=$HOME/.dotfilesgit/ --work-tree=$HOME'     # Manage dotfiles
+#alias nano='micro'
+alias sail='./vendor/bin/sail'
+alias sa='sail artisan'
+alias rm='trash -v'
+alias ga='git add'
+alias cat='bat'
+
+alias start-api='cd $HOME/Documents/scripts && ./start-api'
+
+alias blog='cd $HOME/Documents/scripts && ./blog'
+alias gedit='gnome-text-editor'
+
+# To run an alias with sudo
+alias sudo='sudo '
+
+# Manage dotfiles
+alias dotfilesgit='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
+
+
+
+# Android section
+
+export JAVA_HOME=/opt/android-studio/jre/
+
+export ANDROID_HOME="$HOME/Android/Sdk"
+export ANDROID_SDK_ROOT="$HOME/Android/Sdk"
+PATH=$PATH:$ANDROID_SDK_ROOT/tools; PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
 
 
 
